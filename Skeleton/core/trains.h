@@ -1,49 +1,56 @@
-#include "simulation_state.h"
-#include <cstring>
+#ifndef TRAINS_H
+#define TRAINS_H
 
 // ============================================================================
-// SIMULATION_STATE.CPP - Global state definitions
+// TRAINS.H - Train logic
 // ============================================================================
 
 // ----------------------------------------------------------------------------
-// GRID
+// TRAIN SPAWNING
 // ----------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------
-// TRAINS
-// ----------------------------------------------------------------------------
-
+// Spawn trains scheduled for the current tick.
+void spawnTrainsForTick();
 
 // ----------------------------------------------------------------------------
-// SWITCHES
+// TRAIN ROUTING
 // ----------------------------------------------------------------------------
+// Compute routes for all trains (Phase 2).
+void determineAllRoutes();
 
+// Compute next position/direction for a train.
+bool determineNextPosition();
 
+// Get next direction on entering a tile.
+int getNextDirection();
+
+// Choose best direction at a crossing.
+int getSmartDirectionAtCrossing();
 
 // ----------------------------------------------------------------------------
-// SPAWN AND DESTINATION POINTS
+// TRAIN MOVEMENT
 // ----------------------------------------------------------------------------
+// Move trains and handle collisions (Phase 5).
+void moveAllTrains();
 
 // ----------------------------------------------------------------------------
-// SIMULATION PARAMETERS
+// COLLISION DETECTION
 // ----------------------------------------------------------------------------
+// Detect trains targeting the same tile/swap/crossing.
+void detectCollisions();
 
 // ----------------------------------------------------------------------------
-// METRICS
+// ARRIVALS
 // ----------------------------------------------------------------------------
+// Mark trains that reached destinations.
+void checkArrivals();
 
 // ----------------------------------------------------------------------------
 // EMERGENCY HALT
 // ----------------------------------------------------------------------------
+// Apply emergency halt in active zone.
+void applyEmergencyHalt();
 
-// ============================================================================
-// INITIALIZE SIMULATION STATE
-// ============================================================================
-// ----------------------------------------------------------------------------
-// Resets all global simulation state.
-// ----------------------------------------------------------------------------
-// Called before loading a new level.
-// ----------------------------------------------------------------------------
-void initializeSimulationState() {
-}
+// Update emergency halt timer.
+void updateEmergencyHalt();
+
+#endif
