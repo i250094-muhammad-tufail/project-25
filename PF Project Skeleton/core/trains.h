@@ -24,7 +24,7 @@ bool determineNextPosition(int i);
 int getNextDirection(int x, int y, int inDir);
 
 // Choose best direction at a crossing.
-int getSmartDirectionAtCrossing(int trainIdx, int x, int y);
+int getSmartDirectionAtCrossing(int trainIndex, int x, int y);
 
 // ----------------------------------------------------------------------------
 // TRAIN MOVEMENT
