@@ -26,10 +26,10 @@ const int waitingTrain = 3;
 const int reachedTrian = 4;
 
 const int rightDirection = 0;
-const int leftDirection = 0;
-const int upDirection = 0;
-const int downDirection = 0;
-const int directionless = -24;
+const int leftDirection = 1;
+const int upDirection = 2;
+const int downDirection = 3;
+const int directionless = -1;
 
 
 
@@ -56,9 +56,9 @@ extern int weatherTimer;
 // SIGNAL CONSTANTS
 // ----------------------------------------------------------------------------
 
-const int greenSig;
-const int yellowSig;
-const int redSig;
+const int greenSig = 0;
+const int yellowSig = 1;
+const int redSig = 2;
 
 extern int signalColor [maxSwitches];
 
@@ -67,7 +67,7 @@ extern int signalColor [maxSwitches];
 // ----------------------------------------------------------------------------
 extern int gridWidth;
 extern int gridHeight;
-extern char Grid[maxWidth][maxHieght];
+extern char Grid[maxHieght][maxWidth];
 
 // ----------------------------------------------------------------------------
 // GLOBAL STATE: TRAINS
@@ -81,10 +81,11 @@ extern int trainSpawned_x [maxTrain];
 extern int trainSpawned_y [maxTrain];
 extern int trainDestination_x [maxTrain];
 extern int trainDestination_y [maxTrain];
-//extern int train_numberplate [maxTrain]
-//extern int traind_next_x [maxTrain]
-//extern int traind_next_y [maxTrain]
-//extern int traind_next_direction [maxTrain]
+extern int train_numberplate [maxTrain];
+extern int trainSpawnMoment [maxTrain];
+extern int traind_next_x [maxTrain];
+extern int traind_next_y [maxTrain];
+extern int traind_next_direction [maxTrain];
 
 // ----------------------------------------------------------------------------
 // GLOBAL STATE: SWITCHES (A-Z mapped to 0-25)
@@ -103,17 +104,17 @@ extern bool switchFlip [maxSwitches];
 // GLOBAL STATE: SPAWN POINTS
 // ----------------------------------------------------------------------------
 const int maxSpawnPoints = 20;
-extern int spawnPosition_x [20];
-extern int spawnPosition_y [20];
-extern int spawnID [20];
+extern int spawnPosition_x [maxSpawnPoints];
+extern int spawnPosition_y [maxSpawnPoints];
+extern int spawnID [maxSpawnPoints];
 
 // ----------------------------------------------------------------------------
 // GLOBAL STATE: DESTINATION POINTS
 // ----------------------------------------------------------------------------
 const int maxDestinationPoints = 20;
-extern int destinationPosition_x [20];
-extern int destinatoinPosition_y [20];
-extern int destinationID [20];
+extern int destinationPosition_x [maxDestinationPoints];
+extern int destinatoinPosition_y [maxDestinationPoints];
+extern int destinationID [maxDestinationPoints];
 
 
 // ----------------------------------------------------------------------------

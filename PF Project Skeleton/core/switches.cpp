@@ -14,7 +14,7 @@
 // ----------------------------------------------------------------------------
 void updateSwitchCounters() {
     for (int i = 0 ; i < trainSpawned; i ++){
-        if(trainState[i] = activeTrain){
+        if(trainState[i] == activeTrain){
 
             int x = trainPosition_x[i];
             int y = trainPosition_y[i];
@@ -36,14 +36,14 @@ void updateSwitchCounters() {
 
 }
 
-// ----------------------------------------------------------------------------
+// ----------cd------------------------------------------------------------------
 // QUEUE SWITCH FLIPS
 // ----------------------------------------------------------------------------
 // Queue flips when counters hit K.
 // ----------------------------------------------------------------------------
 void queueSwitchFlips() {
     for (int i = 0; i < switchCount; i++){
-        if(switch_tranCounter[i] >= switchThreshold[i]);{
+        if(switch_tranCounter[i] >= switchThreshold[i]){
             switchFlip[i] = true;
             switch_tranCounter[i] = 0;
 

@@ -46,11 +46,7 @@ static float g_gridOffsetY = 50.0f;
 // the main loop.
 // ----------------------------------------------------------------------------
 bool initializeApp() {
-g_window = new sf::RenderWindow(sf::VideoMode(1280,720),"Switchback Rails");
-g_window->setFramerateLimit(60);
-return true;
 }
-
 
 // ----------------------------------------------------------------------------
 // MAIN RUN LOOP
@@ -64,82 +60,9 @@ return true;
 // loop exits when the window is closed or ESC is pressed.
 // ----------------------------------------------------------------------------
 void runApp() {
-sf::Clock clock;
-float timer=0.0f;
-while(g_window->isOpen())
-{
-    sf::Event event;
-    while(g_window->pollEvent(event))
-    {
-    if(event.type ==sf::Event::Closed)g_window->close();
-    if(event.type ==sf::Event::KeyPressed && event.key.code==sf::Keyboard::Space) 
-    g_isPaused = !g_isPaused;
-    }
-    if(!g_isPaused && (timer += clock.restart().asSeconds()) >=0.5f)
-    {
-        simulateOneTick();
-        timer=0.0f;
-    }
-    else if(g_isPaused)
-    clock.restart();
-    g_window->clear(sf::Color(20,20,20));
-    for(int y = 0 ; y<gridHeight; y++)
-    {
-        for(int x=0;x<gridWidth;x++)
-        {
-            char c=Grid[y][x];
-            if(c==' ')
-            continue;
-            sf::RectangleShape tile(sf::Vector2f(38,38));
-            tile.setPosition(x*40+1,y*40+1);
-            if (c == 'S')
-            {
-                tile.setFillColor(sf::Color(100, 255, 100));
-            }
-            else if (c == 'D')
-            {
-                tile.setFillColor(sf::Color(100, 100, 255));
+}
 
-            }
-            else if (c>='A' && c<= 'Z')
-            {
-                tile.setFillColor(sf::Color(200, 200, 0));
-            }
-            else if (c == '=')
-            {
-                tile.setFillColor(sf::Color(255, 150, 0));
-
-            }
-            else
-            {
-                tile.setFillColor(sf::Color(50, 50, 50));
-            }
-            g_window->draw(tile);
-        }
-    }
-    for(int i=0;i<trainSpawned;i++)
-    {
-        if(trainState[i]==activeTrain)
-        {
-            sf::CircleShape train(13);
-            train.setPosition(trainPosition_x[i]*40+13,trainPosition_y[i]*40+13);
-            train.setFillColor(sf::Color::Magenta);
-            g_window->draw(train);
-        }
-        else if(trainState[i]==waitingTrain)
-        {
-            sf::CircleShape train(13);
-            train.setPosition(trainPosition_x[i]*40+13,trainPosition_y[i]*40+13);
-            train.setFillColor(sf::Color(255,100,100));
-            g_window->draw(train);
-        }
-    }
-    g_window->display();
-    }
-
-    }
-
-    //------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // CLEANUP
 // ----------------------------------------------------------------------------
 // This function will clean up all resources and close the application window.
@@ -148,8 +71,4 @@ while(g_window->isOpen())
 // proper resource cleanup.
 // ----------------------------------------------------------------------------
 void cleanupApp() {
-if(g_window)
-{
-    delete g_window;
-    g_window=nullptr;
-}}
+}

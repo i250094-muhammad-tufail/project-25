@@ -9,7 +9,7 @@
 // LEVEL LOADING
 // ----------------------------------------------------------------------------
 // Load a .lvl file.
-bool loadLevelFile();
+bool loadLevelFile(const char* loadlevel);
 
 // ----------------------------------------------------------------------------
 // LOGGING
@@ -18,13 +18,13 @@ bool loadLevelFile();
 void initializeLogFiles();
 
 // Append train movement to trace.csv.
-void logTrainTrace();
+void logTrainTrace(int id);
 
 // Append switch state to switches.csv.
-void logSwitchState();
+void logSwitchState(int switchindex);
 
 // Append signal state to signals.csv.
-void logSignalState();
+void logSignalState(int switchindex);
 
 // Write final metrics to metrics.txt.
 void writeMetrics();

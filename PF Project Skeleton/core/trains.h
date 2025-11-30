@@ -26,6 +26,13 @@ int getNextDirection(int x, int y, int inDir);
 // Choose best direction at a crossing.
 int getSmartDirectionAtCrossing(int trainIndex, int x, int y);
 
+
+
+//Siddeeq (Me) made functioncfor find ing the distance between the two points
+int getDistance (int x1,int y1,int x2,int y2);
+
+
+
 // ----------------------------------------------------------------------------
 // TRAIN MOVEMENT
 // ----------------------------------------------------------------------------

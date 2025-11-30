@@ -36,7 +36,7 @@ if(!file.is_open())
 
 {
 
-printf("Error in opening the file",loadlevel);
+printf("Error in opening the file %s\n",loadlevel);
 
 return false;
 
@@ -102,9 +102,11 @@ continue;
     }
 if(line.find("SEED:")!=string::npos)
 {
-    string seed=line.substr(6);
-    int seeds=stoi(seed);
-    srand(seeds);
+    if (line.length() > 6) {
+        string seed=line.substr(6);
+        int seeds=stoi(seed);
+        srand(seeds);
+    }
     continue;
 }
 if(gridread)
@@ -242,4 +244,3 @@ ofstream metrics("out/metrics.txt");
     metrics<<"Simulation ticks: "<<tickNumber<<endl;
     metrics.close();
 }
-

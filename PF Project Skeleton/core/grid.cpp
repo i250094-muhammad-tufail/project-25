@@ -11,7 +11,11 @@
 // Returns true if x,y are within bounds.
 // ----------------------------------------------------------------------------
 bool isInBounds(int x, int y) {
-    return (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT);
+    if (x >= 0 && x < gridWidth && y >= 0 && y < gridHeight){
+        return true;
+    }
+    else
+     return false;
 }
 
 // ----------------------------------------------------------------------------
@@ -20,19 +24,21 @@ bool isInBounds(int x, int y) {
 // Returns true if the tile can be traversed by trains.
 // ----------------------------------------------------------------------------
 bool isTrackTile(int x, int y) {
-    if (!isInBounds(x, y)) return false;
-    char c = grid[y][x];
-    // Track characters:
-    // - | / \ + (standard tracks)
-    // S (spawn)
-    // D (destination)
-    // A-Z (switches)
-    // = (safety tile)
-    // > < ^ v (directional tracks if any)
-    
-    if (c == ' ' || c == '.') return false; // Empty or decoration
+    int check = isInBounds(x,y);
+    if(check == 0){
+        return false;
+    }
+
+    char tileType = Grid[y][x];
+    if(tileType == ' ' || tileType == '#'){
+        return false;
+
+    }
     return true;
+
 }
+
+
 
 // ----------------------------------------------------------------------------
 // Check if a tile is a switch.
@@ -40,9 +46,19 @@ bool isTrackTile(int x, int y) {
 // Returns true if the tile is 'A'..'Z'.
 // ----------------------------------------------------------------------------
 bool isSwitchTile(int x, int y) {
-    if (!isInBounds(x, y)) return false;
-    char c = grid[y][x];
-    return (c >= 'A' && c <= 'Z');
+    int check = isInBounds(x,y);
+    if(check == 0){
+        return false;
+    }
+
+    char tileType = Grid[y][x];
+    if(tileType >= 'A' && tileType <= 'Z'){
+        return true;
+
+}
+
+    else
+     return false;
 }
 
 // ----------------------------------------------------------------------------
@@ -50,11 +66,13 @@ bool isSwitchTile(int x, int y) {
 // ----------------------------------------------------------------------------
 // Maps 'A'..'Z' to 0..25, else -1.
 // ----------------------------------------------------------------------------
-int getSwitchIndex(char c) {
-    if (c >= 'A' && c <= 'Z') {
-        return c - 'A';
+int getSwitchIndex(char switchIndex) {
+    if (switchIndex >= 'A' && switchIndex <= 'Z'){
+        int value = switchIndex - 'A';
+        return value;
     }
     return -1;
+
 }
 
 // ----------------------------------------------------------------------------
@@ -63,8 +81,16 @@ int getSwitchIndex(char c) {
 // Returns true if x,y is a spawn.
 // ----------------------------------------------------------------------------
 bool isSpawnPoint(int x, int y) {
-    if (!isInBounds(x, y)) return false;
-    return grid[y][x] == 'S';
+    int check = isInBounds(x,y);
+    if(check == 0){
+        return false;
+    }
+    char tileCheck = Grid[y][x];
+    if(tileCheck == 's'){
+        return true;
+    }
+    else
+     return false;
 }
 
 // ----------------------------------------------------------------------------
@@ -73,8 +99,16 @@ bool isSpawnPoint(int x, int y) {
 // Returns true if x,y is a destination.
 // ----------------------------------------------------------------------------
 bool isDestinationPoint(int x, int y) {
-    if (!isInBounds(x, y)) return false;
-    return grid[y][x] == 'D';
+    int check_a = isInBounds(x,y);
+    if(check_a == 0){
+        return false;
+    }
+    char check = Grid[y][x];
+    if(check == 'd'){
+        return true;
+    }
+    else
+        return false;
 }
 
 // ----------------------------------------------------------------------------
@@ -83,35 +117,21 @@ bool isDestinationPoint(int x, int y) {
 // Returns true if toggled successfully.
 // ----------------------------------------------------------------------------
 bool toggleSafetyTile(int x, int y) {
-    if (!isInBounds(x, y)) return false;
-    
-    // Can only place safety tile on track segments (-, |) or empty space?
-    // Spec says "Toggle safety tile (=)". Usually replaces track.
-    // Let's assume it toggles between '=' and the underlying track.
-    // But we don't store underlying track.
-    // Let's assume it toggles between '=' and '-' or '|' based on context?
-    // Or maybe just toggles if it IS a track.
-    
-    // Simple implementation: If it's '=', turn it back to what?
-    // We might need to infer the track type.
-    // For now, let's just say if it's '=', make it '-' (horizontal default)
-    // If it's '-', make it '='.
-    // This might be too simple.
-    
-    // Better approach:
-    // If grid[y][x] == '=', revert to... ?
-    // Maybe we shouldn't implement editing if we can't restore.
-    // But the prompt says "Left-click: Toggle safety tile (=)".
-    
-    char c = grid[y][x];
-    if (c == '=') {
-        // Revert to horizontal track as default?
-        grid[y][x] = '-'; 
+    int check = isInBounds(x,y);
+    if(check == 0){
+        return false;
+    }
+    char tileType = Grid[y][x];
+    if (tileType == ' '){
+        Grid[y][x] = '=';
         return true;
-    } else if (c == '-') {
-        grid[y][x] = '=';
+
+    }
+
+    if (tileType == '='){
+        Grid[y][x] = ' ';
         return true;
     }
-    
-    return false;
+
+return false;
 }

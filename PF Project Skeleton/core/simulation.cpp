@@ -22,6 +22,28 @@ void initializeSimulation() {
 // ----------------------------------------------------------------------------
 
 void simulateOneTick() {
+    tickNumber++;
+
+    bool rainSkip = weatherCondition == rainyWeather && tickNumber % 5 == 0;
+
+    spawnTrainsForTick();
+    determineAllRoutes();
+    queueSwitchFlips();
+
+    if (!rainSkip){
+
+        detectCollisions();
+        moveAllTrains();
+    }
+
+applyDeferredFlips();
+checkArrivals();
+updateSignalLights();
+updateEmergencyHalt();
+
+
+
+
 }
 
 // ----------------------------------------------------------------------------
@@ -29,4 +51,22 @@ void simulateOneTick() {
 // ----------------------------------------------------------------------------
 
 bool isSimulationComplete() {
+
+
+    for (int i = 0; i < trainSpawned; i++){
+        if(trainState[i] == activeTrain || trainState[i] == waitingTrain || (trainState[i] == inactiveTrain && trainSpawnMoment[i] > tickNumber)){
+
+            return false;
+        }
+
+
+    
+    }
+
+
+    writeMetrics();
+    return true;
+
+
+
 }

@@ -317,7 +317,7 @@ void moveAllTrains() {
             trainPosition_y[i] = traind_next_y[i];
             trainDirection[i] = traind_next_direction[i];
 
-            logTrainTrace(i);
+            
         }
 
     }
@@ -383,8 +383,8 @@ for (int i = 0; i < trainSpawned; i++){
         
         else{
 
-            trainState[i] = crashedTrain;
-            trainState[j] = crashedTrain;
+            trainState[i] = crashTrian;
+            trainState[j] = crashTrian;
             crashedTrain += 2;
 
 

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------------
 int gridWidth = 0;
 int gridHeight = 0;
-char Grid[maxWidth][maxHieght];
+char Grid[maxHieght][maxWidth];
 
 // ----------------------------------------------------------------------------
 // TRAINS
@@ -26,6 +26,9 @@ int trainDestination_x [maxTrain];
 int trainDestination_y [maxTrain];
 int train_numberplate [maxTrain];
 int trainSpawnMoment [maxTrain];
+int traind_next_x [maxTrain];
+int traind_next_y [maxTrain];
+int traind_next_direction [maxTrain];
 
 // ----------------------------------------------------------------------------
 // SWITCHES
@@ -43,11 +46,11 @@ bool switchFlip [maxSwitches];
 // ----------------------------------------------------------------------------
 // SPAWN AND DESTINATION POINTS
 // ----------------------------------------------------------------------------
-int maxSpawnPoints = 0;
+
 int spawnPosition_x [maxSpawnPoints];
 int spawnPosition_y [maxSpawnPoints];
 int spawnID [maxSpawnPoints];
-int maxDestinationPoints = 0;
+
 int destinationPosition_x [maxDestinationPoints];
 int destinatoinPosition_y [maxDestinationPoints];
 int destinationID [maxDestinationPoints];
@@ -56,8 +59,10 @@ int destinationID [maxDestinationPoints];
 // ----------------------------------------------------------------------------
 // SIMULATION PARAMETERS
 // ----------------------------------------------------------------------------
+int weatherCondition = normWeather;
+int signalColor [maxSwitches];
+int weatherTimer = 0;
 int tickNumber = 0;
-int weather = normWeather;
 int spawnInterval = 5;
 // ----------------------------------------------------------------------------
 // METRICS
@@ -92,18 +97,18 @@ for(int i = 0; i < maxHieght; i++){
 
 }
 
-int trainSpawned = 0;
+trainSpawned = 0;
 int train_Var = 0;
 while (train_Var < maxTrain){
-    switchPosition_x [train_Var] = 0;
-    switchPosition_y [train_Var] = 0;
+    trainPosition_x [train_Var] = 0;
+    trainPosition_y [train_Var] = 0;
     trainState[train_Var] = inactiveTrain;
-    trainDirection [maxTrain] = directionless;
+    trainDirection [train_Var] = directionless;
     train_Var++;
 }
 
 
-int switchCount = 0;
+switchCount = 0;
 int switch_Var = 0;
 while (switch_Var < maxSwitches){
     switchFlip [switch_Var] = false;
