@@ -1,0 +1,919 @@
+[33m10ec9ee[m Declared all the arrays and constant variables
+[1mdiff --git a/PF Project Skeleton/core/simulation_state.cpp b/PF Project Skeleton/core/simulation_state.cpp[m
+[1mindex 5a547fb..2db825e 100644[m
+[1m--- a/PF Project Skeleton/core/simulation_state.cpp[m	
+[1m+++ b/PF Project Skeleton/core/simulation_state.cpp[m	
+[36m@@ -19,6 +19,8 @@[m
+ // SWITCHES[m
+ // ----------------------------------------------------------------------------[m
+ [m
+[32m+[m
+[32m+[m
+ // ----------------------------------------------------------------------------[m
+ // SPAWN AND DESTINATION POINTS[m
+ // ----------------------------------------------------------------------------[m
+[1mdiff --git a/PF Project Skeleton/core/simulation_state.h b/PF Project Skeleton/core/simulation_state.h[m
+[1mindex b26abd5..8defc9e 100644[m
+[1m--- a/PF Project Skeleton/core/simulation_state.h[m	
+[1m+++ b/PF Project Skeleton/core/simulation_state.h[m	
+[36m@@ -10,69 +10,132 @@[m
+ // ----------------------------------------------------------------------------[m
+ // GRID CONSTANTS[m
+ // ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxWidth = 80;[m
+[32m+[m[32mconst int maxHieght = 80;[m
+ [m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // TRAIN CONSTANTS[m
+ // ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxTrain = 20;[m
+[32m+[m
+[32m+[m[32mconst int inactiveTrain = 0;[m
+[32m+[m[32mconst int activeTrain = 1;[m
+[32m+[m[32mconst int crashTrian = 2;[m
+[32m+[m[32mconst int waitingTrain = 3;[m
+[32m+[m[32mconst int reachedTrian = 4;[m
+[32m+[m
+[32m+[m[32mconst int rightDirection = 0;[m
+[32m+[m[32mconst int leftDirection = 0;[m
+[32m+[m[32mconst int upDirection = 0;[m
+[32m+[m[32mconst int downDirection = 0;[m
+[32m+[m[32mconst int directionless = -24;[m
+[32m+[m
+ [m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // SWITCH CONSTANTS[m
+ // ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxSwitches = 26;[m
+[32m+[m[32mconst int switchGlobal = 0;[m
+[32m+[m[32mconst int switchLocal = 1;[m
+ [m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // WEATHER CONSTANTS[m
+ // ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int normWeather = 0;[m
+[32m+[m[32mconst int rainyWeather = 1;[m
+[32m+[m[32mconst int foggyWeather = 2;[m
+[32m+[m
+[32m+[m[32mextern int weatherCondition;[m
+[32m+[m[32mextern int weatherTimer;[m
+ [m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // SIGNAL CONSTANTS[m
+ // ----------------------------------------------------------------------------[m
+ [m
+[32m+[m[32mconst int greenSig;[m
+[32m+[m[32mconst int yellowSig;[m
+[32m+[m[32mconst int redSig;[m
+ [m
+[31m-[m
+[32m+[m[32mextern int signalColor [maxSwitches];[m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // GLOBAL STATE: GRID[m
+ // ----------------------------------------------------------------------------[m
+[31m-[m
+[32m+[m[32mextern int gridWidth;[m
+[32m+[m[32mextern int gridHeight;[m
+[32m+[m[32mextern char Grid[maxWidth][maxHieght];[m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // GLOBAL STATE: TRAINS[m
+ // ----------------------------------------------------------------------------[m
+[31m-[m
+[32m+[m[32mextern int trainSpawned;[m
+[32m+[m[32mextern int trainPosition_x [maxTrain];[m
+[32m+[m[32mextern int trainPosition_y [maxTrain];[m
+[32m+[m[32mextern int trainDirection [maxTrain];[m
+[32m+[m[32mextern int trainState [maxTrain];[m
+[32m+[m[32mextern int trainSpawned_x [maxTrain];[m
+[32m+[m[32mextern int trainSpawned_y [maxTrain];[m
+[32m+[m[32mextern int trainDestination_x [maxTrain];[m
+[32m+[m[32mextern int trainDestination_y [maxTrain];[m
+[32m+[m[32m//extern int train_numberplate [maxTrain][m
+[32m+[m[32m//extern int traind_next_x [maxTrain][m
+[32m+[m[32m//extern int traind_next_y [maxTrain][m
+[32m+[m[32m//extern int traind_next_direction [maxTrain][m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // GLOBAL STATE: SWITCHES (A-Z mapped to 0-25)[m
+ // ----------------------------------------------------------------------------[m
+[32m+[m[32mextern int switchCount;[m
+[32m+[m[32mextern int switchPosition_x [maxSwitches];[m
+[32m+[m[32mextern int switchPosition_y [maxSwitches];[m
+[32m+[m[32mextern int switchThreshold [maxSwitches];[m
+[32m+[m[32mextern int switchState [maxSwitches];[m
+[32m+[m[32mextern int switch_tranCounter [maxSwitches];[m
+[32m+[m[32mextern int switchType [maxSwitches];[m
+[32m+[m[32mextern bool switchFlip [maxSwitches];[m
+ [m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // GLOBAL STATE: SPAWN POINTS[m
+ // ----------------------------------------------------------------------------[m
+[31m-[m
+[32m+[m[32mconst int maxSpawnPoints = 20;[m
+[32m+[m[32mextern int spawnPosition_x [20];[m
+[32m+[m[32mextern int spawnPosition_y [20];[m
+[32m+[m[32mextern int spawnID [20];[m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // GLOBAL STATE: DESTINATION POINTS[m
+ // ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxDestinationPoints = 20;[m
+[32m+[m[32mextern int destinationPosition_x [20];[m
+[32m+[m[32mextern int destinatoinPosition_y [20];[m
+[32m+[m[32mextern int destinationID [20];[m
+ [m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // GLOBAL STATE: SIMULATION PARAMETERS[m
+ // ----------------------------------------------------------------------------[m
+[31m-[m
+[32m+[m[32mextern int tickNumber;[m
+[32m+[m[32m//extern int seed;[m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // GLOBAL STATE: METRICS[m
+ // ----------------------------------------------------------------------------[m
+[31m-[m
+[32m+[m[32mextern int arrivedTrain;[m
+[32m+[m[32mextern int crashedTrain;[m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // GLOBAL STATE: EMERGENCY HALT[m
+ // ----------------------------------------------------------------------------[m
+[31m-[m
+[32m+[m[32mextern bool Halt;[m
+[32m+[m[32mextern int haltTotalTime;[m
+[32m+[m[32mextern int haltPositionX;[m
+[32m+[m[32mextern int haltPositionY;[m
+[32m+[m[32mextern int haltRadius;[m
+ [m
+ // ----------------------------------------------------------------------------[m
+ // INITIALIZATION FUNCTION[m
+[1mdiff --git a/Skeleton/core/grid.cpp b/Skeleton/core/grid.cpp[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1063961[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/grid.cpp[m
+[36m@@ -0,0 +1,62 @@[m
+[32m+[m[32m#include "grid.h"[m
+[32m+[m[32m#include "simulation_state.h"[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// GRID.CPP - Grid utilities[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Check if a position is inside the grid.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Returns true if x,y are within bounds.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mbool isInBounds() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Check if a tile is a track tile.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Returns true if the tile can be traversed by trains.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mbool isTrackTile() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Check if a tile is a switch.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Returns true if the tile is 'A'..'Z'.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mbool isSwitchTile() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Get switch index from character.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Maps 'A'..'Z' to 0..25, else -1.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mint getSwitchIndex() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Check if a position is a spawn point.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Returns true if x,y is a spawn.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mbool isSpawnPoint() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Check if a position is a destination.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Returns true if x,y is a destination.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mbool isDestinationPoint() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Toggle a safety tile.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Returns true if toggled successfully.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mbool toggleSafetyTile() {[m
+[32m+[m[32m}[m
+[1mdiff --git a/Skeleton/core/grid.h b/Skeleton/core/grid.h[m
+[1mnew file mode 100644[m
+[1mindex 0000000..a85e665[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/grid.h[m
+[36m@@ -0,0 +1,32 @@[m
+[32m+[m[32m#ifndef GRID_H[m
+[32m+[m[32m#define GRID_H[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// GRID.H - Grid manipulation functions[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// Functions for working with the 2D grid map.[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// Check if a position is within grid bounds[m
+[32m+[m[32mbool isInBounds();[m
+[32m+[m
+[32m+[m[32m// Check if a tile is a track (can trains move on it?)[m
+[32m+[m[32mbool isTrackTile();[m
+[32m+[m
+[32m+[m[32m// Check if a tile is a switch (A-Z)[m
+[32m+[m[32mbool isSwitchTile();[m
+[32m+[m
+[32m+[m[32m// Get the switch index (0-25) from a switch character (A-Z)[m
+[32m+[m[32mint getSwitchIndex();[m
+[32m+[m
+[32m+[m[32m// Check if a position is a spawn point[m
+[32m+[m[32mbool isSpawnPoint();[m
+[32m+[m
+[32m+[m[32m// Check if a position is a destination point[m
+[32m+[m[32mbool isDestinationPoint();[m
+[32m+[m
+[32m+[m[32m// Place or remove a safety tile at a position (for mouse editing)[m
+[32m+[m[32m// Returns true if successful[m
+[32m+[m[32mbool toggleSafetyTile();[m
+[32m+[m
+[32m+[m[32m#endif[m
+[1mdiff --git a/Skeleton/core/io.cpp b/Skeleton/core/io.cpp[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4e9ed1a[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/io.cpp[m
+[36m@@ -0,0 +1,59 @@[m
+[32m+[m[32m#include "io.h"[m
+[32m+[m[32m#include "simulation_state.h"[m
+[32m+[m[32m#include "grid.h"[m
+[32m+[m[32m#include <fstream>[m
+[32m+[m[32m#include <cstring>[m
+[32m+[m[32m#include <cstdio>[m
+[32m+[m[32m#include <cstdlib>[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// IO.CPP - Level I/O and logging[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// LOAD LEVEL FILE[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Load a .lvl file into global state.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mbool loadLevelFile() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// INITIALIZE LOG FILES[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Create/clear CSV logs with headers.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid initializeLogFiles() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// LOG TRAIN TRACE[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Append tick, train id, position, direction, state to trace.csv.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid logTrainTrace() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// LOG SWITCH STATE[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Append tick, switch id/mode/state to switches.csv.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid logSwitchState() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// LOG SIGNAL STATE[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Append tick, switch id, signal color to signals.csv.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid logSignalState() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// WRITE FINAL METRICS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Write summary metrics to metrics.txt.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid writeMetrics() {[m
+[32m+[m[32m}[m
+[1mdiff --git a/Skeleton/core/io.h b/Skeleton/core/io.h[m
+[1mnew file mode 100644[m
+[1mindex 0000000..71f9bce[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/io.h[m
+[36m@@ -0,0 +1,32 @@[m
+[32m+[m[32m#ifndef IO_H[m
+[32m+[m[32m#define IO_H[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// IO.H - Level I/O and logging[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// LEVEL LOADING[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Load a .lvl file.[m
+[32m+[m[32mbool loadLevelFile();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// LOGGING[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Create/clear log files.[m
+[32m+[m[32mvoid initializeLogFiles();[m
+[32m+[m
+[32m+[m[32m// Append train movement to trace.csv.[m
+[32m+[m[32mvoid logTrainTrace();[m
+[32m+[m
+[32m+[m[32m// Append switch state to switches.csv.[m
+[32m+[m[32mvoid logSwitchState();[m
+[32m+[m
+[32m+[m[32m// Append signal state to signals.csv.[m
+[32m+[m[32mvoid logSignalState();[m
+[32m+[m
+[32m+[m[32m// Write final metrics to metrics.txt.[m
+[32m+[m[32mvoid writeMetrics();[m
+[32m+[m
+[32m+[m[32m#endif[m
+[1mdiff --git a/Skeleton/core/simulation.cpp b/Skeleton/core/simulation.cpp[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f09e98f[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/simulation.cpp[m
+[36m@@ -0,0 +1,32 @@[m
+[32m+[m[32m#include "simulation.h"[m
+[32m+[m[32m#include "simulation_state.h"[m
+[32m+[m[32m#include "trains.h"[m
+[32m+[m[32m#include "switches.h"[m
+[32m+[m[32m#include "io.h"[m
+[32m+[m[32m#include <cstdlib>[m
+[32m+[m[32m#include <ctime>[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// SIMULATION.CPP - Implementation of main simulation logic[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// INITIALIZE SIMULATION[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32mvoid initializeSimulation() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SIMULATE ONE TICK[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32mvoid simulateOneTick() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// CHECK IF SIMULATION IS COMPLETE[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32mbool isSimulationComplete() {[m
+[32m+[m[32m}[m
+[1mdiff --git a/Skeleton/core/simulation.h b/Skeleton/core/simulation.h[m
+[1mnew file mode 100644[m
+[1mindex 0000000..28339b1[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/simulation.h[m
+[36m@@ -0,0 +1,28 @@[m
+[32m+[m[32m#ifndef SIMULATION_H[m
+[32m+[m[32m#define SIMULATION_H[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// SIMULATION.H - Simulation tick logic[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// MAIN SIMULATION FUNCTION[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Run one simulation tick.[m
+[32m+[m[32mvoid simulateOneTick();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// INITIALIZATION[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Initialize the simulation after loading a level.[m
+[32m+[m[32mvoid initializeSimulation();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// UTILITY[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// True if all trains are delivered or crashed.[m
+[32m+[m[32mbool isSimulationComplete();[m
+[32m+[m
+[32m+[m[32m#endif[m
+[32m+[m
+[32m+[m
+[1mdiff --git a/Skeleton/core/simulation_state.cpp b/Skeleton/core/simulation_state.cpp[m
+[1mnew file mode 100644[m
+[1mindex 0000000..2db825e[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/simulation_state.cpp[m
+[36m@@ -0,0 +1,49 @@[m
+[32m+[m[32m#include "simulation_state.h"[m
+[32m+[m[32m#include <cstring>[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// SIMULATION_STATE.CPP - Global state definitions[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GRID[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// TRAINS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SWITCHES[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SPAWN AND DESTINATION POINTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SIMULATION PARAMETERS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// METRICS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// EMERGENCY HALT[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// INITIALIZE SIMULATION STATE[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Resets all global simulation state.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Called before loading a new level.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid initializeSimulationState() {[m
+[32m+[m[32m}[m
+[1mdiff --git a/Skeleton/core/simulation_state.h b/Skeleton/core/simulation_state.h[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8defc9e[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/simulation_state.h[m
+[36m@@ -0,0 +1,146 @@[m
+[32m+[m[32m#ifndef SIMULATION_STATE_H[m
+[32m+[m[32m#define SIMULATION_STATE_H[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// SIMULATION_STATE.H - Global constants and state[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// Global constants and arrays used by the game.[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GRID CONSTANTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxWidth = 80;[m
+[32m+[m[32mconst int maxHieght = 80;[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// TRAIN CONSTANTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxTrain = 20;[m
+[32m+[m
+[32m+[m[32mconst int inactiveTrain = 0;[m
+[32m+[m[32mconst int activeTrain = 1;[m
+[32m+[m[32mconst int crashTrian = 2;[m
+[32m+[m[32mconst int waitingTrain = 3;[m
+[32m+[m[32mconst int reachedTrian = 4;[m
+[32m+[m
+[32m+[m[32mconst int rightDirection = 0;[m
+[32m+[m[32mconst int leftDirection = 0;[m
+[32m+[m[32mconst int upDirection = 0;[m
+[32m+[m[32mconst int downDirection = 0;[m
+[32m+[m[32mconst int directionless = -24;[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SWITCH CONSTANTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxSwitches = 26;[m
+[32m+[m[32mconst int switchGlobal = 0;[m
+[32m+[m[32mconst int switchLocal = 1;[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// WEATHER CONSTANTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int normWeather = 0;[m
+[32m+[m[32mconst int rainyWeather = 1;[m
+[32m+[m[32mconst int foggyWeather = 2;[m
+[32m+[m
+[32m+[m[32mextern int weatherCondition;[m
+[32m+[m[32mextern int weatherTimer;[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SIGNAL CONSTANTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32mconst int greenSig;[m
+[32m+[m[32mconst int yellowSig;[m
+[32m+[m[32mconst int redSig;[m
+[32m+[m
+[32m+[m[32mextern int signalColor [maxSwitches];[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GLOBAL STATE: GRID[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mextern int gridWidth;[m
+[32m+[m[32mextern int gridHeight;[m
+[32m+[m[32mextern char Grid[maxWidth][maxHieght];[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GLOBAL STATE: TRAINS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mextern int trainSpawned;[m
+[32m+[m[32mextern int trainPosition_x [maxTrain];[m
+[32m+[m[32mextern int trainPosition_y [maxTrain];[m
+[32m+[m[32mextern int trainDirection [maxTrain];[m
+[32m+[m[32mextern int trainState [maxTrain];[m
+[32m+[m[32mextern int trainSpawned_x [maxTrain];[m
+[32m+[m[32mextern int trainSpawned_y [maxTrain];[m
+[32m+[m[32mextern int trainDestination_x [maxTrain];[m
+[32m+[m[32mextern int trainDestination_y [maxTrain];[m
+[32m+[m[32m//extern int train_numberplate [maxTrain][m
+[32m+[m[32m//extern int traind_next_x [maxTrain][m
+[32m+[m[32m//extern int traind_next_y [maxTrain][m
+[32m+[m[32m//extern int traind_next_direction [maxTrain][m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GLOBAL STATE: SWITCHES (A-Z mapped to 0-25)[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mextern int switchCount;[m
+[32m+[m[32mextern int switchPosition_x [maxSwitches];[m
+[32m+[m[32mextern int switchPosition_y [maxSwitches];[m
+[32m+[m[32mextern int switchThreshold [maxSwitches];[m
+[32m+[m[32mextern int switchState [maxSwitches];[m
+[32m+[m[32mextern int switch_tranCounter [maxSwitches];[m
+[32m+[m[32mextern int switchType [maxSwitches];[m
+[32m+[m[32mextern bool switchFlip [maxSwitches];[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GLOBAL STATE: SPAWN POINTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxSpawnPoints = 20;[m
+[32m+[m[32mextern int spawnPosition_x [20];[m
+[32m+[m[32mextern int spawnPosition_y [20];[m
+[32m+[m[32mextern int spawnID [20];[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GLOBAL STATE: DESTINATION POINTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mconst int maxDestinationPoints = 20;[m
+[32m+[m[32mextern int destinationPosition_x [20];[m
+[32m+[m[32mextern int destinatoinPosition_y [20];[m
+[32m+[m[32mextern int destinationID [20];[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GLOBAL STATE: SIMULATION PARAMETERS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mextern int tickNumber;[m
+[32m+[m[32m//extern int seed;[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GLOBAL STATE: METRICS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mextern int arrivedTrain;[m
+[32m+[m[32mextern int crashedTrain;[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GLOBAL STATE: EMERGENCY HALT[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mextern bool Halt;[m
+[32m+[m[32mextern int haltTotalTime;[m
+[32m+[m[32mextern int haltPositionX;[m
+[32m+[m[32mextern int haltPositionY;[m
+[32m+[m[32mextern int haltRadius;[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// INITIALIZATION FUNCTION[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Resets all state before loading a new level.[m
+[32m+[m[32mvoid initializeSimulationState();[m
+[32m+[m
+[32m+[m[32m#endif[m
+[1mdiff --git a/Skeleton/core/switches.cpp b/Skeleton/core/switches.cpp[m
+[1mnew file mode 100644[m
+[1mindex 0000000..eb3cdc9[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/switches.cpp[m
+[36m@@ -0,0 +1,56 @@[m
+[32m+[m[32m#include "switches.h"[m
+[32m+[m[32m#include "simulation_state.h"[m
+[32m+[m[32m#include "grid.h"[m
+[32m+[m[32m#include "io.h"[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// SWITCHES.CPP - Switch management[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// UPDATE SWITCH COUNTERS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Increment counters for trains entering switches.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid updateSwitchCounters() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// QUEUE SWITCH FLIPS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Queue flips when counters hit K.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid queueSwitchFlips() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// APPLY DEFERRED FLIPS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Apply queued flips after movement.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid applyDeferredFlips() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// UPDATE SIGNAL LIGHTS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Update signal colors for switches.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid updateSignalLights() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// TOGGLE SWITCH STATE (Manual)[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Manually toggle a switch state.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid toggleSwitchState() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GET SWITCH STATE FOR DIRECTION[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Return the state for a given direction.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mint getSwitchStateForDirection() {[m
+[32m+[m[32m}[m
+[1mdiff --git a/Skeleton/core/switches.h b/Skeleton/core/switches.h[m
+[1mnew file mode 100644[m
+[1mindex 0000000..ca88b56[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/switches.h[m
+[36m@@ -0,0 +1,44 @@[m
+[32m+[m[32m#ifndef SWITCHES_H[m
+[32m+[m[32m#define SWITCHES_H[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// SWITCHES.H - Switch logic[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SWITCH COUNTER UPDATE[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Increment counters when trains enter switches.[m
+[32m+[m[32mvoid updateSwitchCounters();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// FLIP QUEUE[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Queue flips when counters reach K.[m
+[32m+[m[32mvoid queueSwitchFlips();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// DEFERRED FLIP[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Apply queued flips after movement.[m
+[32m+[m[32mvoid applyDeferredFlips();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SIGNAL CALCULATION[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Update switch signal colors.[m
+[32m+[m[32mvoid updateSignalLights();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SWITCH TOGGLE (for manual control / editing)[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Manually toggle a switch state.[m
+[32m+[m[32mvoid toggleSwitchState();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// HELPER FUNCTIONS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Get state for a given direction.[m
+[32m+[m[32mint getSwitchStateForDirection();[m
+[32m+[m
+[32m+[m[32m#endif[m
+[1mdiff --git a/Skeleton/core/trains.cpp b/Skeleton/core/trains.cpp[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fb82c9b[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/trains.cpp[m
+[36m@@ -0,0 +1,93 @@[m
+[32m+[m[32m#include "trains.h"[m
+[32m+[m[32m#include "simulation_state.h"[m
+[32m+[m[32m#include "grid.h"[m
+[32m+[m[32m#include "switches.h"[m
+[32m+[m[32m#include <cstdlib>[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// TRAINS.CPP - Train logic[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// Storage for planned moves (for collisions).[m
+[32m+[m
+[32m+[m[32m// Previous positions (to detect switch entry).[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SPAWN TRAINS FOR CURRENT TICK[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Activate trains scheduled for this tick.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid spawnTrainsForTick() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// DETERMINE NEXT POSITION for a train[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Compute next position/direction from current tile and rules.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mbool determineNextPosition() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// GET NEXT DIRECTION based on current tile and direction[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Return new direction after entering the tile.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mint getNextDirection() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// SMART ROUTING AT CROSSING - Route train to its matched destination[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Choose best direction at '+' toward destination.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mint getSmartDirectionAtCrossing() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// DETERMINE ALL ROUTES (PHASE 2)[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Fill next positions/directions for all trains.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid determineAllRoutes() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// MOVE ALL TRAINS (PHASE 5)[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Move trains; resolve collisions and apply effects.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid moveAllTrains() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// DETECT COLLISIONS WITH PRIORITY SYSTEM[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Resolve same-tile, swap, and crossing conflicts.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid detectCollisions() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// CHECK ARRIVALS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Mark trains that reached destinations.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid checkArrivals() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// APPLY EMERGENCY HALT[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Apply halt to trains in the active zone.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid applyEmergencyHalt() {[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// UPDATE EMERGENCY HALT[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Decrement timer and disable when done.[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32mvoid updateEmergencyHalt() {[m
+[32m+[m[32m}[m
+[1mdiff --git a/Skeleton/core/trains.h b/Skeleton/core/trains.h[m
+[1mnew file mode 100644[m
+[1mindex 0000000..644de24[m
+[1m--- /dev/null[m
+[1m+++ b/Skeleton/core/trains.h[m
+[36m@@ -0,0 +1,56 @@[m
+[32m+[m[32m#ifndef TRAINS_H[m
+[32m+[m[32m#define TRAINS_H[m
+[32m+[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m[32m// TRAINS.H - Train logic[m
+[32m+[m[32m// ============================================================================[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// TRAIN SPAWNING[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Spawn trains scheduled for the current tick.[m
+[32m+[m[32mvoid spawnTrainsForTick();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// TRAIN ROUTING[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Compute routes for all trains (Phase 2).[m
+[32m+[m[32mvoid determineAllRoutes();[m
+[32m+[m
+[32m+[m[32m// Compute next position/direction for a train.[m
+[32m+[m[32mbool determineNextPosition();[m
+[32m+[m
+[32m+[m[32m// Get next direction on entering a tile.[m
+[32m+[m[32mint getNextDirection();[m
+[32m+[m
+[32m+[m[32m// Choose best direction at a crossing.[m
+[32m+[m[32mint getSmartDirectionAtCrossing();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// TRAIN MOVEMENT[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Move trains and handle collisions (Phase 5).[m
+[32m+[m[32mvoid moveAllTrains();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// COLLISION DETECTION[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Detect trains targeting the same tile/swap/crossing.[m
+[32m+[m[32mvoid detectCollisions();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// ARRIVALS[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Mark trains that reached destinations.[m
+[32m+[m[32mvoid checkArrivals();[m
+[32m+[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// EMERGENCY HALT[m
+[32m+[m[32m// ----------------------------------------------------------------------------[m
+[32m+[m[32m// Apply emergency halt in active zone.[m
+[32m+[m[32mvoid applyEmergencyHalt();[m
+[32m+[m
+[32m+[m[32m// Update emergency halt timer.[m
+[32m+[m[32mvoid updateEmergencyHalt();[m
+[32m+[m
+[32m+[m[32m#endif[m
