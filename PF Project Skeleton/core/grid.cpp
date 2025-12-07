@@ -86,7 +86,7 @@ bool isSpawnPoint(int x, int y) {
         return false;
     }
     char tileCheck = Grid[y][x];
-    if(tileCheck == 's'){
+    if(tileCheck == 's' || tileCheck == 'S'){
         return true;
     }
     else
@@ -104,7 +104,7 @@ bool isDestinationPoint(int x, int y) {
         return false;
     }
     char check = Grid[y][x];
-    if(check == 'd'){
+    if(check == 'd' || check == 'D'){
         return true;
     }
     else

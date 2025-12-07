@@ -104,6 +104,9 @@ while (train_Var < maxTrain){
     trainPosition_y [train_Var] = 0;
     trainState[train_Var] = inactiveTrain;
     trainDirection [train_Var] = directionless;
+    traind_next_x[train_Var] = 0;
+    traind_next_y[train_Var] = 0;
+    traind_next_direction[train_Var] = directionless;
     train_Var++;
 }
 

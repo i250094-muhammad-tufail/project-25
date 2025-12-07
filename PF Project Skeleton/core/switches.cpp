@@ -36,7 +36,7 @@ void updateSwitchCounters() {
 
 }
 
-// ----------cd------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // QUEUE SWITCH FLIPS
 // ----------------------------------------------------------------------------
 // Queue flips when counters hit K.
@@ -116,14 +116,8 @@ for (int i = 0 ; i < switchCount; i++){
 // Manually toggle a switch state.
 // ----------------------------------------------------------------------------
 void toggleSwitchState(int switchIndex) {
-
-    if(switchIndex >= 0 && switchIndex < switchCount){
-        switchState[switchIndex] = !switchState[switchIndex];
-        logSwitchState(switchIndex);
-    }
-
-
-
+    if (switchIndex < 0 || switchIndex >= maxSwitches) return;
+    switchFlip[switchIndex] = !switchFlip[switchIndex];
 }
 
 // ----------------------------------------------------------------------------

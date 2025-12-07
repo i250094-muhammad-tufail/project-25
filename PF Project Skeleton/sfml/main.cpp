@@ -29,6 +29,10 @@ int main(int argc, char* argv[]) {
 
     cout<<"Loading Level.........."<<level<<endl;
 
+    if (!loadLevelFile(level)) {
+        cout << "Failed to load level: " << level << endl;
+        return 1;
+    }
 
     int app = initializeApp();
     if (app == 0){
@@ -38,6 +42,9 @@ int main(int argc, char* argv[]) {
 
 
     cout << "Simulation successfully initialized." <<endl;
+    cout << "Grid Size: " << gridWidth << "x" << gridHeight << endl;
+    cout << "Trains Loaded: " << trainSpawned << endl;
+    cout << "Switches Loaded: " << switchCount << endl;
     cout << "Controls are:" << endl;
     cout << " Use  SPACE: Pause/Resume" << endl;
     cout << "  .: Shows Step one tick" << endl;

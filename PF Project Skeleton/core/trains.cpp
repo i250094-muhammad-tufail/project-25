@@ -62,6 +62,9 @@ bool determineNextPosition(int i) {
 
 int currentX = trainPosition_x[i];
 int currentY = trainPosition_y[i];
+
+if (!isInBounds(currentX, currentY)) return false;
+
 int currentDirection = trainDirection[i];
 
     if(currentDirection == directionless){
@@ -76,6 +79,9 @@ int currentDirection = trainDirection[i];
 
         }
         if (currentDirection == directionless){
+            traind_next_x[i] = currentX;
+            traind_next_y[i] = currentY;
+            traind_next_direction[i] = directionless;
             return false;
         }
 
